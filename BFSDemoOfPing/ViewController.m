@@ -42,42 +42,42 @@
 
 #pragma mark -
 
-- (void)pingHost {
-    
-    NSString *hostName = @"www.apple.com";
-    self.simplePing = [[SimplePing alloc] initWithHostName:hostName];
-    self.simplePing.addressStyle = SimplePingAddressStyleICMPv4;
-    self.simplePing.delegate = self;
-    [self.simplePing start];
-}
-
-#pragma mark SimplePingDelegate
-
-- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-    [self.simplePing sendPingWithData:nil];
-}
-
-- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-}
-
-- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-}
-
-- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-}
-
-- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-}
-
-- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
-    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-    NSLog(@"didReceiveUnexpectedPacket: %@", [[NSString alloc] initWithData:packet encoding:NSUTF8StringEncoding]);
-}
+//- (void)pingHost {
+//
+//    NSString *hostName = @"www.apple.com";
+//    self.simplePing = [[SimplePing alloc] initWithHostName:hostName];
+//    self.simplePing.addressStyle = SimplePingAddressStyleICMPv4;
+//    self.simplePing.delegate = self;
+//    [self.simplePing start];
+//}
+//
+//#pragma mark SimplePingDelegate
+//
+//- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//    [self.simplePing sendPingWithData:nil];
+//}
+//
+//- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//}
+//
+//- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//}
+//
+//- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//}
+//
+//- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//}
+//
+//- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
+//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+//    NSLog(@"didReceiveUnexpectedPacket: %@", [[NSString alloc] initWithData:packet encoding:NSUTF8StringEncoding]);
+//}
 
 
 @end
