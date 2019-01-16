@@ -82,6 +82,7 @@
 - (void)cancelPing {
     
     [self.simplePing stop];
+    _simplePing = nil;
 }
 
 - (void)finishPing {
@@ -109,6 +110,7 @@
 
 - (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
     NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    [self.simplePing sendPingWithData:nil];
 }
 
 - (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
@@ -125,12 +127,14 @@
 
 - (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
     NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+    NSLog(@"didReceivePingResponsePacket: %@", [[NSString alloc] initWithData:packet encoding:NSUTF8StringEncoding]);
+    _isPingSuccess = YES;
+    [self handlePingResult:YES];
 }
 
 - (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
     NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-    _isPingSuccess = YES;
-    [self handlePingResult:YES];
+    NSLog(@"didReceiveUnexpectedPacket: %@", [[NSString alloc] initWithData:packet encoding:NSUTF8StringEncoding]);
 }
 
 @end
