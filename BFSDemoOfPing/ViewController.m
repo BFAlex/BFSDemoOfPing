@@ -11,7 +11,9 @@
 
 #import "SimplePing.h"
 
-@interface ViewController () <SimplePingDelegate>
+@interface ViewController () <SimplePingDelegate> {
+    NSString *_curHost;
+}
 @property (nonatomic, strong) BFSPingAssistant *pingAssistant;
 
 @property (nonatomic, strong) SimplePing *simplePing;
@@ -32,12 +34,13 @@
     // 127.0.0.1
     // www.apple.com
     // 192.168.25.1
-    self.pingAssistant = [[BFSPingAssistant alloc] initWithHostName:@"127.0.0.1" forTarget:self selector:@selector(pingResult:)];
+    _curHost = @"192.168.100.1";
+    self.pingAssistant = [[BFSPingAssistant alloc] initWithHostName:_curHost forTarget:self selector:@selector(pingResult:)];
     [self.pingAssistant startPing];
 }
 
 - (void)pingResult:(id)result {
-    NSLog(@"ping result: %@", result);
+    NSLog(@"ping result(%@): %@", _curHost, result);
 }
 
 #pragma mark -

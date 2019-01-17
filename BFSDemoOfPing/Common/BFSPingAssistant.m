@@ -76,7 +76,7 @@
     _isPingSuccess = NO;
     [self.simplePing start];
 //    // 设置超时处理
-//    [self performSelector:@selector(pingOvertime) withObject:nil afterDelay:kPingOvertime];
+    [self performSelector:@selector(pingOvertime) withObject:nil afterDelay:kPingOvertime];
 }
 
 - (void)cancelPing {
