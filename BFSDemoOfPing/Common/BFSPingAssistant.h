@@ -12,11 +12,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BFSPingAssistant : NSObject
 
+#pragma mark - Class methods
++ (NSString *)getIpAddresses;
+
+#pragma mark - Obj methods
 - (instancetype)init __attribute__((unavailable("init is unavailable, call\"initWithHostName:theTarget:\"instead")));
 - (instancetype)initWithHostName:(NSString *)hostName forTarget:(id)target selector:(SEL)selector;
 // Start Ping
 - (void)startPing;
 - (void)finishPing;
+
 
 @end
 

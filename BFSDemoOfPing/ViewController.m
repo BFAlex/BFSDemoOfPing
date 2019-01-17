@@ -14,8 +14,9 @@
 @interface ViewController () <SimplePingDelegate> {
     NSString *_curHost;
 }
-@property (nonatomic, strong) BFSPingAssistant *pingAssistant;
+@property (weak, nonatomic) IBOutlet UITextView *messageView;
 
+@property (nonatomic, strong) BFSPingAssistant *pingAssistant;
 @property (nonatomic, strong) SimplePing *simplePing;
 
 @end
@@ -25,62 +26,49 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    [self testAssistant];
-//    [self pingHost];
+    self.messageView.text = @"";
 }
 
 - (void)testAssistant {
     // 127.0.0.1
     // www.apple.com
     // 192.168.25.1
-    _curHost = @"192.168.100.1";
+    // [BFSPingAssistant getIpAddresses]
+    _curHost = [BFSPingAssistant getIpAddresses];
     self.pingAssistant = [[BFSPingAssistant alloc] initWithHostName:_curHost forTarget:self selector:@selector(pingResult:)];
     [self.pingAssistant startPing];
 }
 
 - (void)pingResult:(id)result {
     NSLog(@"ping result(%@): %@", _curHost, result);
+    NSString *newMsg = [NSString stringWithFormat:@"%@\nping result(%@): %@",
+                        [self currentTimeStr],
+                        _curHost,
+                        result ? @"success" : @"fail"];
+    self.messageView.text = [NSString stringWithFormat:@"%@\n\n%@", newMsg, self.messageView.text];
+    
+    
+    [self.messageView scrollsToTop];
 }
 
-#pragma mark -
+- (NSString *)currentTimeStr {
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    
+    NSDate *datenow = [NSDate date];
+    NSString *nowtimeStr = [formatter stringFromDate:datenow];
+    
+    return nowtimeStr;
+}
 
-//- (void)pingHost {
-//
-//    NSString *hostName = @"www.apple.com";
-//    self.simplePing = [[SimplePing alloc] initWithHostName:hostName];
-//    self.simplePing.addressStyle = SimplePingAddressStyleICMPv4;
-//    self.simplePing.delegate = self;
-//    [self.simplePing start];
-//}
-//
-//#pragma mark SimplePingDelegate
-//
-//- (void)simplePing:(SimplePing *)pinger didStartWithAddress:(NSData *)address {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//    [self.simplePing sendPingWithData:nil];
-//}
-//
-//- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//}
-//
-//- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//}
-//
-//- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//}
-//
-//- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//}
-//
-//- (void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet {
-//    NSLog(@"【%@ %@】", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
-//    NSLog(@"didReceiveUnexpectedPacket: %@", [[NSString alloc] initWithData:packet encoding:NSUTF8StringEncoding]);
-//}
+#pragma mark - Action
 
+- (IBAction)actionPingBtn:(UIButton *)sender {
+    
+    [self testAssistant];
+}
 
 @end
